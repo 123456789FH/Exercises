@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سحب وإفلات — مستويات (سهل/متوسط/صعب) مع نطق عربي</title>
+<style>
+  :root{--brand:#7c3aed;--ok:#16a34a;--err:#ef4444;--ink:#0f172a;--panel:#ffffff}
+  *{box-sizing:border-box}
+
+  /* === خلفية موف مريحة + طبقة رموز رياضية شفافة === */
+  body{
+    margin:0;
+    font-family:'Noto Sans Arabic','Segoe UI',Tahoma,sans-serif;
+    color:var(--ink);
+    background:
+      linear-gradient(180deg,#f3e8ff 0%, #efe1ff 30%, #eee6ff 100%),
+      url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNDAiIGhlaWdodD0iMjQwIiB2aWV3Qm94PSIwIDAgMjQwIDI0MCI+PGRlZnM+PHN0eWxlPi5nIHsgZmlsbDpub25lO3N0cm9rZTojYjJhOGY4O3N0cm9rZS13aWR0aDo0O29wYWNpdHk6LjE1IH0gLnQgeyBmb250OiA3MHB4IHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiA3MDA7IGZpbGw6I2IyYThmODsgb3BhY2l0eTogLjE1IH0gPC9zdHlsZT48L2RlZnM+PGc+PGNpcmNsZSBjeD0iNDAiIGN5PSI0MCIgcj0iMjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2IyYThmOCIgc3Ryb2tlLXdpZHRoPSI0Ii8+PHJlY3QgeD0iMTcwIiB5PSIxNjAiIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgcng9IjEwIiByeT0iMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2IyYThmOCIgc3Ryb2tlLXdpZHRoPSI0Ii8+PHBhdGggZD0iTTIwIDIwMGg4MCIgc3Ryb2tlPSIjYjJhOGY4IiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjQiLz48cGF0aCBkPSJNMjAwIDIwdjgwIiBzdHJva2U9IiNiMmE4ZjgiIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iNCIvPjwvZz48dGV4dCBjbGFzcz0idCIgeD0iMjAiIHk9IjEyMCIrPi08L3RleHQ+PHRleHQgY2xhc3M9InQiIHg9IjEyMCIgeT0iODAiPi0gPC90ZXh0Pjx0ZXh0IGNsYXNzPSJ0IiB4PSIxNDAiIHk9IjIxMCI+4piF4IKgPC90ZXh0Pjx0ZXh0IGNsYXNzPSJ0IiB4PSI2MCIgeT0iMjEwIj7inKHinKA8L3RleHQ+PHRleHQgY2xhc3M9InQiIHg9IjE3MCIgeT0iMTQwIj7inKs8L3RleHQ+PHRleHQgY2xhc3M9InQiIHg9IjEwIiB5PSI3MCI+4piAPC90ZXh0Pjwvc3ZnPg==');
+    background-repeat: no-repeat, repeat;
+    background-size: auto, 240px 240px;
+    background-attachment: fixed, fixed;
+    background-position: center top, left top;
+  }
+
+  header{padding:12px 10px 6px}
+  .brandbar{
+    max-width:980px;margin:0 auto 6px;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+  }
+  .logo-wrap{display:flex;align-items:center;gap:10px}
+  .logo{
+    width:58px;height:58px;border-radius:14px;object-fit:cover;
+    box-shadow:0 6px 18px rgba(124,58,237,.25);background:#fff;
+    border:2px solid rgba(124,58,237,.25);
+  }
+  .title{flex:1;text-align:center}
+  .title h1{margin:.25rem 0 .35rem;font-size:clamp(18px,2.6vw,28px)}
+  .title p{margin:0;color:#475569}
+
+  .wrap{max-width:980px;margin:0 auto;padding:12px}
+  .topbar{display:flex;gap:12px;align-items:center;justify-content:space-between;background:#fff;padding:10px 14px;border-radius:14px;box-shadow:0 8px 26px rgba(2,6,23,.06);flex-wrap:wrap}
+  .score{font-weight:900;background:#fff;border:2px solid rgba(124,58,237,.25);border-radius:999px;padding:.35rem .7rem;min-width:56px;text-align:center}
+  .steps{display:flex;gap:6px;margin:0;padding:0;list-style:none}
+  .steps li{width:10px;height:10px;border-radius:50%;background:#e5e7eb}
+  .steps li.on{background:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.18)}
+  .btn{border:0;border-radius:12px;padding:.55rem .9rem;background:var(--brand);color:#fff;font-weight:800;cursor:pointer}
+  .toggle{display:inline-flex;align-items:center;gap:6px;border:1px solid #e2e8f0;background:#fff;border-radius:12px;padding:.4rem .7rem;font-weight:700;cursor:pointer}
+  .levels{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .lvl{border:1px solid #e2e8f0;background:#fff;border-radius:999px;padding:.35rem .8rem;font-weight:800;cursor:pointer}
+  .lvl.active{background:var(--brand);color:#fff;border-color:transparent}
+  .grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+  @media (min-width:760px){.grid{grid-template-columns:1fr 1fr}}
+  .card{background:var(--panel);border-radius:20px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,.08);opacity:0;transform:translateY(8px);transition:.25s ease}
+  .card.show{opacity:1;transform:translateY(0)}
+  .eq{font-size:clamp(26px,4.6vw,44px);font-weight:900;display:flex;gap:.5rem;align-items:center;justify-content:center;margin-bottom:10px}
+  .tray{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .draggable{user-select:none;padding:.55rem .9rem;border-radius:14px;background:#fff;border:2px dashed rgba(124,58,237,.35);font-weight:900;font-size:22px;min-width:52px;text-align:center;cursor:grab;box-shadow:0 2px 6px rgba(0,0,0,.12);transition:transform .15s}
+  .draggable:active{transform:scale(.98);cursor:grabbing}
+  .cell{width:74px;height:74px;border-radius:16px;border:3px dashed rgba(2,6,23,.18);background:rgba(2,6,23,.04);display:flex;align-items:center;justify-content:center;margin-inline-start:8px}
+  .cell .dropzone{min-width:64px;min-height:52px;border-radius:12px;border:2px dashed #cbd5e1;background:transparent}
+  .dropzone.ready{border-color:var(--brand);background:rgba(124,58,237,.08)}
+  .dropzone.correct{border-color:#16a34a;background:#ecfdf5;color:#064e3b}
+  .dropzone.wrong{border-color:#ef4444;background:#fff1f2;color:#7f1d1d;animation:shake .25s}
+  @keyframes shake{25%{transform:translateX(-4px)}50%{transform:translateX(4px)}75%{transform:translateX(-3px)}100%{transform:translateX(0)}}
+  .msg{margin-top:8px;text-align:center;font-weight:800}
+  .msg.ok{color:#047857} .msg.err{color:#b91c1c}
+  .foot{margin:16px 0 18px;text-align:center;color:#334155;font-weight:800}
+</style>
+</head>
+<body>
+<header>
+  <div class="brandbar">
+    <div class="logo-wrap">
+      <img id="logoImg" class="logo" alt="الشعار" src="https://i.top4top.io/p_35930g1tw1.png">
+    </div>
+    <div class="title">
+      <h1>تمرين سحب وإفلات — ٣ مستويات × ٦ أسئلة</h1>
+      <p>اختاري المستوى، ثم اسحبي الإجابة إلى الخلية الشفافة.</p>
+    </div>
+    <div style="width:58px"></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="topbar">
+    <div class="levels">
+      <button class="lvl active" data-level="easy">سهل</button>
+      <button class="lvl" data-level="medium">متوسط</button>
+      <button class="lvl" data-level="hard">صعب</button>
+    </div>
+    <ul id="steps" class="steps"></ul>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <div>النقاط: <span id="score" class="score">٠</span></div>
+      <button id="ttsBtn" class="toggle" type="button" aria-pressed="true">🗣️ النطق: يعمل</button>
+      <button id="beepBtn" class="toggle" type="button" aria-pressed="true">🔔 النغمة: تعمل</button>
+      <button id="resetBtn" class="btn" type="button">إعادة التمرين</button>
+    </div>
+  </div>
+
+  <div id="cards" class="grid"></div>
+  <p class="foot">تصميم / أ- فاطمة هزازي · ملتقى معلمي ومعلمات الرياضيات · ملتقى التعليم التفاعلي</p>
+</div>
+
+<script>
+// Arabic digits
+const toAr = n => (''+n).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+const fromAr = s => (''+s).replace(/[٠-٩]/g, d => '0123456789'['٠١٢٣٤٥٦٧٨٩'.indexOf(d)]);
+
+// Beep & TTS toggles
+let beepOn = true, ttsOn = true;
+const beepBtn = document.getElementById('beepBtn');
+const ttsBtn  = document.getElementById('ttsBtn');
+beepBtn.addEventListener('click', ()=>{
+  beepOn = !beepOn;
+  beepBtn.textContent = beepOn ? '🔔 النغمة: تعمل' : '🔕 النغمة: صامت';
+  beepBtn.setAttribute('aria-pressed', String(beepOn));
+});
+ttsBtn.addEventListener('click', ()=>{
+  ttsOn = !ttsOn;
+  ttsBtn.textContent = ttsOn ? '🗣️ النطق: يعمل' : '🤫 النطق: متوقف';
+  ttsBtn.setAttribute('aria-pressed', String(ttsOn));
+});
+
+// WebAudio beep
+const audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+['pointerdown','touchstart','keydown','click'].forEach(evt=>{
+  window.addEventListener(evt, ()=>{ if(audioCtx.state==='suspended') audioCtx.resume(); }, {once:true, passive:true});
+});
+function beep(ok=true){
+  if(!beepOn) return;
+  const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+  o.type = ok ? 'square' : 'sawtooth'; o.frequency.value = ok ? 880 : 220;
+  g.gain.value = 0.0001; o.connect(g); g.connect(audioCtx.destination);
+  const now = audioCtx.currentTime;
+  o.start();
+  g.gain.exponentialRampToValueAtTime(0.5, now + 0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001, now + 0.45);
+  o.stop(now + 0.48);
+}
+
+// Web Speech (Arabic)
+let arVoice = null;
+function pickArabicVoice(){
+  const voices = speechSynthesis.getVoices();
+  arVoice = voices.find(v => /ar/i.test(v.lang)) || voices[0] || null;
+}
+pickArabicVoice();
+if (typeof speechSynthesis !== 'undefined') speechSynthesis.onvoiceschanged = pickArabicVoice;
+function speak(text){
+  if(!ttsOn || typeof speechSynthesis === 'undefined') return;
+  const u = new SpeechSynthesisUtterance(text);
+  if(arVoice) u.voice = arVoice;
+  u.lang = arVoice ? arVoice.lang : 'ar-SA';
+  u.rate = 0.95; u.pitch = 1;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+// Score animation
+function animateNumber(el,to,dur=600){
+  const from = +fromAr(el.textContent)||0;
+  const start = performance.now();
+  function step(t){
+    const p = Math.min(1,(t-start)/dur);
+    el.textContent = toAr(Math.round(from + (to-from)*p));
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// Question generator (6 per level)
+function rand(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+function genSet(level){
+  const qs=[];
+  if(level==='easy'){
+    for(let i=0;i<6;i++){
+      const op = Math.random()<0.5?'+':'-';
+      let a,b;
+      if(op==='+'){ a=rand(1,5); b=rand(1,5); }
+      else{ a=rand(3,9); b=rand(0,Math.min(5,a)); }
+      qs.push({a,b,op});
+    }
+  }else if(level==='medium'){
+    for(let i=0;i<6;i++){
+      const op = Math.random()<0.5?'+':'-';
+      let a=rand(6,20), b=rand(3,12);
+      if(op==='-' && b>a){ [a,b]=[b,a]; }
+      qs.push({a,b,op});
+    }
+  }else{
+    for(let i=0;i<6;i++){
+      const op = Math.random()<0.5?'+':'-';
+      let a=rand(15,50), b=rand(7,20);
+      if(op==='-' && b>a){ [a,b]=[b,a]; }
+      qs.push({a,b,op});
+    }
+  }
+  return qs;
+}
+const solve = q => q.op==='+' ? q.a+q.b : q.a-q.b;
+
+// DOM
+const cardsEl = document.getElementById('cards');
+const stepsEl = document.getElementById('steps');
+const scoreEl = document.getElementById('score');
+const resetBtn = document.getElementById('resetBtn');
+const levelBtns = Array.from(document.querySelectorAll('.lvl'));
+let score=0, currentLevel='easy', questions=[];
+
+levelBtns.forEach(b=>b.addEventListener('click', ()=>{
+  levelBtns.forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  currentLevel = b.dataset.level;
+  build();
+}));
+
+resetBtn.addEventListener('click', build);
+
+function renderSteps(idx=0){
+  stepsEl.innerHTML='';
+  for(let i=0;i<questions.length;i++){
+    const li=document.createElement('li');
+    if(i<=idx) li.classList.add('on');
+    stepsEl.appendChild(li);
+  }
+}
+
+function makeCard(q,index){
+  const card = document.createElement('section');
+  card.className='card'; setTimeout(()=>card.classList.add('show'), 50*index);
+
+  const dz = document.createElement('span');
+  dz.className='dropzone'; dz.dataset.answer = String(solve(q)); dz.textContent='؟';
+
+  const cell = document.createElement('div');
+  cell.className='cell'; cell.appendChild(dz);
+
+  const eq = document.createElement('div');
+  eq.className='eq';
+  const eqText = document.createElement('span');
+  eqText.textContent = `${toAr(q.a)} ${q.op} ${toAr(q.b)} =`;
+  eq.appendChild(eqText);
+  eq.appendChild(cell);
+  card.appendChild(eq);
+
+  const msg = document.createElement('div'); msg.className='msg'; msg.textContent=''; card.appendChild(msg);
+
+  const tray = document.createElement('div'); tray.className='tray';
+  const right = solve(q);
+  const opts = new Set([right]);
+  while(opts.size<4){
+    const d = Math.max(0, right + (Math.floor(Math.random()*7)-3));
+    if(d!==right) opts.add(d);
+  }
+  Array.from(opts).sort(()=>Math.random()-0.5).forEach(n=>{
+    const t=document.createElement('div'); t.className='draggable'; t.draggable=true;
+    t.textContent=toAr(n); t.dataset.value=String(n); tray.appendChild(t);
+  });
+  card.appendChild(tray); cardsEl.appendChild(card);
+
+  // Drag & Drop
+  card.addEventListener('dragstart', e=>{
+    if(e.target.classList.contains('draggable')){
+      e.dataTransfer.setData('text/plain', e.target.dataset.value);
+      setTimeout(()=>e.target.style.opacity=.6,0);
+    }
+  });
+  card.addEventListener('dragend', e=>{ if(e.target.classList.contains('draggable')) e.target.style.opacity=1; });
+  dz.addEventListener('dragover', e=>{ e.preventDefault(); dz.classList.add('ready'); });
+  dz.addEventListener('dragleave', ()=> dz.classList.remove('ready'));
+  dz.addEventListener('drop', e=>{
+    e.preventDefault(); dz.classList.remove('ready');
+    const v = parseInt(e.dataTransfer.getData('text/plain'),10);
+    check(v,dz,card,msg,index);
+  });
+
+  // pointer support
+  tray.querySelectorAll('.draggable').forEach(t=>{
+    t.addEventListener('pointerdown', ev=>{
+      t.setPointerCapture(ev.pointerId);
+      const ghost = t.cloneNode(true);
+      ghost.style.position='fixed'; ghost.style.zIndex=99; ghost.style.opacity=.95;
+      document.body.appendChild(ghost);
+      const offX = ev.clientX - t.getBoundingClientRect().left;
+      const offY = ev.clientY - t.getBoundingClientRect().top;
+      function move(e){ ghost.style.left=(e.clientX-offX)+'px'; ghost.style.top=(e.clientY-offY)+'px'; }
+      function up(e){
+        document.removeEventListener('pointermove',move);
+        document.removeEventListener('pointerup',up);
+        const r = dz.getBoundingClientRect();
+        if(e.clientX>r.left && e.clientX<r.right && e.clientY>r.top && e.clientY<r.bottom){
+          check(parseInt(t.dataset.value,10),dz,card,msg,index);
+        }
+        ghost.remove();
+      }
+      document.addEventListener('pointermove',move);
+      document.addEventListener('pointerup',up);
+    });
+  });
+}
+
+function check(val,dz,card,msg,idx){
+  const ans = parseInt(dz.dataset.answer,10);
+  if(val===ans){
+    dz.textContent = toAr(val);
+    dz.classList.remove('wrong'); dz.classList.add('correct');
+    msg.className='msg ok'; msg.textContent='إجابة صحيحة ✓ رائع!';
+    beep(true); speak('إجابة صحيحة، أحسنتِ!');
+    score += 10; animateNumber(scoreEl, score);
+    renderSteps(idx);
+    card.querySelectorAll('.draggable').forEach(d=>d.draggable=false);
+  }else{
+    dz.classList.add('wrong');
+    msg.className='msg err'; msg.textContent='ليست صحيحة، حاولي مرة أخرى.';
+    beep(false); speak('ليست صحيحة، حاولي مرة أخرى');
+    setTimeout(()=>dz.classList.remove('wrong'), 420);
+  }
+}
+
+function build(){
+  cardsEl.innerHTML=''; score=0; scoreEl.textContent=toAr(score);
+  questions = genSet(currentLevel); // 6 questions
+  questions.forEach((q,i)=>makeCard(q,i));
+  renderSteps(0);
+}
+build();
+</script>
+</body>
+</html>
